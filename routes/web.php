@@ -21,9 +21,17 @@ use Illuminate\Http\Request;
 | These routes are loaded by the RouteServiceProvider and are all assigned to the "web" middleware group.
 */
 
-Route::get('/', [FrontController::class, 'index'])->name('front.home');
+
+Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/shop', [FrontController::class, 'shop'])->name('front.shop');
-Route::get('/cart', [FrontController::class, 'cart'])->name('front.cart');
+Route::get('/product/{id}', [FrontController::class, 'productDetail'])->name('product.detail');
+
+//Route Cart
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
+// Route::post('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
 
 // Admin Login Routes
 Route::get('/admin/login', [AdminLoginController::class, 'index'])->name('admin.login');
@@ -73,8 +81,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/products', [ProductController::class, 'index'])->name('product.index');
         Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
         Route::post('/products', [ProductController::class, 'store'])->name('product.store');
-        Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
-        Route::put('/products/{id}', [ProductController::class, 'update'])->name('product.update');
+        Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('/products/{product}', [ProductController::class, 'update'])->name('product.update');
         Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

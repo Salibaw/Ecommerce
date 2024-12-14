@@ -14,10 +14,13 @@
         }
 
         .img-thumbnail {
-            border-radius: 8px;
-            max-width: 70px;
-            max-height: 70px;
+            width: 80px;
+            /* Set a fixed width for all images */
+            height: 80px;
+            /* Set a fixed height for all images */
             object-fit: cover;
+            /* Ensure images cover the entire area */
+            border-radius: 8px;
         }
 
         .badge-active {
@@ -79,33 +82,48 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($products as $index => $product)
+                        @forelse($products as $product)
                             <tr>
+                                <!-- Correct calculation for iteration number -->
                                 <td>{{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}</td>
+
+                                <!-- Display first image only -->
                                 <td>
-                                    @if($product->images->isNotEmpty())
-                                        <img src="{{ asset('uploads/product/' . optional($product->images->first())->path) }}"
-                                            alt="{{ $product->title }}" class="img-thumbnail">
+                                    @if ($product->images->isNotEmpty())
+                                        <img src="{{ asset('uploads/product/' . $product->images->first()->image) }}"
+                                            class="img-thumbnail" alt="{{ $product->title }}">
                                     @else
-                                        <img src="{{ asset('images/placeholder.png') }}" alt="No Image" class="img-thumbnail">
+                                        <span class="text-muted">No Image</span>
                                     @endif
                                 </td>
-                                <td>{{ $product->title }}</td>
-                                <td>${{ number_format($product->price, 2) }}</td>
-                                <td>{{ $product->qty }}</td>
+
+                                <!-- Limit the title to 50 characters -->
+                                <td>{{ Str::limit($product->title, 50) }}</td>
+
+                                <!-- Format price -->
+                                <td>Rp{{ number_format($product->price, 2) }}</td>
+
+                                <!-- Display quantity -->
+                                <td>{{ number_format($product->qty) }}</td>
+
+                                <!-- Display SKU -->
                                 <td>{{ $product->sku }}</td>
+
+                                <!-- Conditional rendering for status -->
                                 <td>
                                     <span class="badge {{ $product->status ? 'badge-active' : 'badge-inactive' }}">
                                         {{ $product->status ? 'Active' : 'Inactive' }}
                                     </span>
                                 </td>
+
+                                <!-- Actions -->
                                 <td>
                                     <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-warning">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
                                     <form action="{{ route('product.destroy', $product->id) }}" method="POST"
                                         style="display:inline-block;"
-                                        onsubmit="return confirm('Are you sure want to delete this product?');">
+                                        onsubmit="return confirm('Are you sure you want to delete this product?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">
@@ -116,11 +134,10 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8">No products found.</td>
+                                <td colspan="8" class="text-center text-muted">No products found.</td>
                             </tr>
                         @endforelse
                     </tbody>
-
                 </table>
             </div>
             <div class="card-footer clearfix">

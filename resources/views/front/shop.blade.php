@@ -6,13 +6,12 @@
         <div class="container">
             <div class="light-font">
                 <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="{{route('front.home')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a class="white-text" href="{{route('home')}}">Home</a></li>
                     <li class="breadcrumb-item active">Shop</li>
                 </ol>
             </div>
         </div>
     </section>
-
     <section class="section-6 pt-5">
         <div class="container">
             <div class="row">
@@ -210,7 +209,6 @@
                                     <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
                                     <form action="{{ route('cart.add') }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         <input type="hidden" name="quantity" value="1">
                                         <button type="submit" class="btn btn-primary">Add to Cart</button>
                                     </form>
