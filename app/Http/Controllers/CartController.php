@@ -49,6 +49,35 @@ public function add(Request $request)
 
     return redirect()->route('cart.index')->with('success', 'Product added to cart.');
 }
+public function update(Request $request, $id)
+{
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        $quantity = $request->input('quantity');
+
+        // Ambil stok maksimum dari database
+        $product = Product::find($id);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        // Validasi stok
+        if ($quantity > $product->stock) {
+            return redirect()->back()->with('error', 'Quantity exceeds available stock.');
+        }
+
+        // Perbarui jumlah dalam keranjang
+        $cart[$id]['quantity'] = $quantity;
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index')->with('success', 'Cart updated successfully.');
+    }
+
+    return redirect()->route('cart.index')->with('error', 'Product not found in cart.');
+}
+
+
 public function remove($id)
 {
     $cart = session()->get('cart', []);

@@ -76,14 +76,13 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="card mb-3">
                         <div class="card-body">
                             <h4>Images</h4>
                             <div class="row">
                                 @foreach ($product->images as $image)
                                     <div class="col-md-4 text-center mb-3">
-                                        <img src="{{ asset('uploads/product_images/' . $image->image) }}" class="img-thumbnail" alt="Product Image">
+                                        <img src="{{ asset('uploads/product/' . $image->image) }}" class="img-thumbnail" alt="Product Image">
                                         <button type="button" class="btn btn-danger btn-sm mt-2 delete-image" data-image-id="{{ $image->id }}">Delete</button>
                                     </div>
                                 @endforeach

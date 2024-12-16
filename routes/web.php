@@ -30,6 +30,7 @@ Route::get('/product/{id}', [FrontController::class, 'productDetail'])->name('pr
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
 // Route::post('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
 
@@ -83,11 +84,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/products', [ProductController::class, 'store'])->name('product.store');
         Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
         Route::put('/products/{product}', [ProductController::class, 'update'])->name('product.update');
-        Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+        Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
 
-        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-        Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-        
+        Route::delete('product/image/{image}', [ProductController::class, 'destroyImage'])->name('product.image.destroy');
 
         // Temporary Image Upload Route
         Route::post('/upload-temp-image', [TempImagesController::class, 'create'])->name('temp-images.create');

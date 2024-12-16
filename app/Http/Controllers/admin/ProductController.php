@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Brand;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
@@ -58,7 +59,7 @@ class ProductController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads/product_images'), $imageName);
+                $image->move(public_path('uploads/product'), $imageName);
     
                 $product->images()->create([
                     'image' => $imageName,
@@ -119,4 +120,23 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
     }
+    public function destroyImage($id)
+    {
+        $image = ProductImage::findOrFail($id); // Pastikan tabel atau model gambar digunakan sesuai struktur database Anda
+    
+        // Hapus file gambar dari penyimpanan
+        $imagePath = public_path('uploads/product/' . $image->image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    
+        // Hapus record gambar dari database
+        $image->delete();
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Image deleted successfully.',
+        ]);
+    }
+    
 }
