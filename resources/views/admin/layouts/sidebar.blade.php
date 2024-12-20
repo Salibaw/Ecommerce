@@ -46,13 +46,14 @@
 							
 							<li class="nav-item">
 								<a href="#" class="nav-link">
+									
 									<!-- <i class="nav-icon fas fa-tag"></i> -->
 									<i class="fas fa-truck nav-icon"></i>
 									<p>Shipping</p>
 								</a>
 							</li>							
 							<li class="nav-item">
-								<a href="orders.html" class="nav-link">
+								<a href="{{route('admin.orders.index')}}" class="nav-link">
 									<i class="nav-icon fas fa-shopping-bag"></i>
 									<p>Orders</p>
 								</a>

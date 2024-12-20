@@ -21,7 +21,7 @@
 
             
 			  	<div class="card-header text-center">
-					<a href="#" class="h3">Administrative Panel</a>
+					<a href="#" class="h3">Login Your Account</a>
 			  	</div>
 			  	<div class="card-body">
 					<p class="login-box-msg">Sign in to start your session</p>

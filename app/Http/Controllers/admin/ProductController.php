@@ -49,15 +49,16 @@ class ProductController extends Controller
             'qty' => 'nullable|integer|min:0',
             'status' => 'required|boolean',
             'is_featured' => 'required|in:Yes,No',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Validasi array gambar
+            'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Validasi array gambar
         ]);
     
         // Simpan produk
+        // dd($validated);
         $product = Product::create($validated);
     
         // Simpan gambar
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $index => $image) {
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $index => $image) {
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('uploads/product'), $imageName);
     
@@ -95,6 +96,7 @@ class ProductController extends Controller
         'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
     ]);
 
+    // dd($validated);
     // Update product data
     $product->update($validated);
 

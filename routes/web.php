@@ -7,8 +7,11 @@ use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\TempImagesController;
+use App\Http\Controllers\admin\OrdersController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -32,7 +35,11 @@ Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 
-// Route::post('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+
+Route::get('/order', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/order/{id}', [OrderController::class, 'show'])->name('orders.show');
 
 // Admin Login Routes
 Route::get('/admin/login', [AdminLoginController::class, 'index'])->name('admin.login');
@@ -85,8 +92,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
         Route::put('/products/{product}', [ProductController::class, 'update'])->name('product.update');
         Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
-
         Route::delete('product/image/{image}', [ProductController::class, 'destroyImage'])->name('product.image.destroy');
+
+        //Order
+        Route::post('/admin/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+        Route::get('/orders', [OrdersController::class, 'index'])->name('admin.orders.index');
+        Route::get('/orders/{id}', [OrdersController::class, 'show'])->name('admin.orders.show');
 
         // Temporary Image Upload Route
         Route::post('/upload-temp-image', [TempImagesController::class, 'create'])->name('temp-images.create');

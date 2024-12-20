@@ -25,5 +25,9 @@ class FrontController extends Controller
         return view('front.cart', compact('categories','products'));
     }
 
-    
+    public function checkout(){
+        $categories = Category::where('status', 1)->with('subcategories')->get();
+        $products = Product::with('images')->where('status', 1)->get();
+        return view('front.checkout', compact('categories','products'));
+    }
 }
